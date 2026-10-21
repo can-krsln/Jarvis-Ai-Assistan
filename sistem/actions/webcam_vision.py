@@ -1,6 +1,5 @@
 """
 Webcam görüntüsü alır ve Gemini Vision ile analiz eder.
-Alp Ünlü (@alppunlu)
 """
 
 from __future__ import annotations
