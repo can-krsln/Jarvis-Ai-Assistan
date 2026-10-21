@@ -1,0 +1,22 @@
+# JARVIS — Gerekli paketler (macOS + Windows, tek dosya)
+google-genai
+opencv-python
+SpeechRecognition
+pyaudio
+psutil
+Pillow
+requests
+# Telefon sunucusunun HTTPS sertifikasini uretir (openssl KURULU OLMASI
+# GEREKMEZ). google-auth zaten dolayli olarak cekiyor ama dogrudan import
+# ettigimiz icin acikca yaziyoruz.
+cryptography
+
+# ── Windows'a ozel ───────────────────────────────────────────────────────────
+# pywin32   : Outlook COM (takvim/animsatici), win32gui (aktif pencere), font API
+# mss       : hizli ekran yakalama
+# pyttsx3   : SAPI5 metin okuma
+# pywinauto : WhatsApp Desktop otomasyonu
+pywin32; sys_platform == "win32"
+mss; sys_platform == "win32"
+pyttsx3; sys_platform == "win32"
+pywinauto; sys_platform == "win32"

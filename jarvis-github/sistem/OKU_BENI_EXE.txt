@@ -1,0 +1,155 @@
+╔══════════════════════════════════════════════════════════╗
+║                    J.A.R.V.I.S                            ║
+║          Windows Kişisel AI Asistanı — EXE sürüm          ║
+╚══════════════════════════════════════════════════════════╝
+
+Python KURMANA GEREK YOK. Her şey içinde.
+
+
+KURULUM — 2 ADIM
+
+
+① JARVIS.exe dosyasına ÇİFT TIKLA
+
+   İlk açılış 10-15 saniye sürer (ekranda "BAŞLATILIYOR..."
+   yazısı çıkar). Sabret, tekrar tıklamana gerek yok.
+
+
+   ⚠️  "Windows bilgisayarınızı korudu" (SmartScreen) uyarısı çıkarsa:
+   ───────────────────────────────────────────────────────────
+   Bu normal — dosya Microsoft'a para verilip imzalatılmadığı için
+   çıkar, zararlı olduğu anlamına GELMEZ. Şöyle geç:
+
+      1. "Daha fazla bilgi" yazısına tıkla
+      2. Altta çıkan "Yine de çalıştır" düğmesine bas
+
+   ✅ Sadece ilk seferde gerekir.
+   ───────────────────────────────────────────────────────────
+
+
+② Gemini API anahtarını gir (ZORUNLU, ücretsiz)
+
+      1. https://aistudio.google.com/apikey  adresine git
+      2. Google hesabınla giriş → "Create API key"
+      3. Anahtarı kopyala → JARVIS ekranındaki kutuya yapıştır → KAYDET
+
+   Birkaç saniye içinde bağlanır ve konuşmaya hazır olur.
+
+
+──────────────────────────────────────────────────────────
+📁 "_internal" klasörü uygulamanın kendi dosyalarıdır — SİLME.
+   JARVIS.exe ile aynı klasörde kalmalı.
+
+📦 TAŞINABİLİR: Ayarların, hafızan ve takvimin JARVIS.exe'nin
+   yanındaki config\ ve memory\ klasörlerinde tutulur. Klasörün
+   tamamını USB'ye atıp başka bilgisayarda çalıştırabilirsin.
+──────────────────────────────────────────────────────────
+
+
+🎙️  KULLANIM:
+   • Konuşmaya başla — mikrofon sürekli açık
+   • veya yazı kutusuna yaz, Enter'a bas
+   • F4: mikrofonu sustur    F5: duraklat    F6: kamera
+   • F11 veya Ctrl+F: tam ekran     Esc: tam ekrandan çık / kapat
+
+
+🔐 İZİNLER:
+Windows mikrofon izni isteyebilir — "İzin Ver" de. Sormazsa ve
+mikrofon çalışmıyorsa:
+   Ayarlar → Gizlilik ve güvenlik → Mikrofon
+   → "Uygulamaların mikrofonunuza erişmesine izin verin" AÇIK
+   → "Masaüstü uygulamalarının..." seçeneği de AÇIK olmalı
+
+Kamera için: Ayarlar → Gizlilik ve güvenlik → Kamera
+
+
+📅 TAKVİM VE ANIMSATICILAR:
+   JARVIS kendi takvimini kullanır — kurulum gerekmez, hemen çalışır.
+   Etkinlikler memory klasörüne kaydedilir, ayrıca .ics dosyası da
+   yazılır (Outlook veya Google Takvim'e aktarabilirsin).
+
+   Outlook'unu kullanmasını istersen: Outlook'u aç, bir e-posta hesabı
+   tanımla ve açık bırak — JARVIS otomatik olarak onu kullanır.
+
+
+🎵 MÜZİK:  Spotify kuruluysa Spotify'da, değilse YouTube'da açar.
+
+💬 WHATSAPP:  WhatsApp Desktop kuruluysa onu, değilse tarayıcıda
+   WhatsApp Web'i kullanır. Kişi adıyla mesaj atabilmek için önce
+   numarayı kaydettir: "Ahmet'in numarası 0555 111 22 33, kaydet".
+
+
+🖥️  MASAÜSTÜ KISAYOLU / AÇILIŞTA BAŞLATMA:
+   Sol üstteki SYSTEM SETTINGS panelinden:
+   • "MASAÜSTÜNE KISAYOL EKLE"
+   • "AÇILIŞTA BAŞLAT"
+
+
+📱 TELEFONDAN BAĞLANMA:
+   TELEFON.bat dosyasına çift tıkla. Ekranda bir adres ve QR kod
+   çıkar → telefon kamerasıyla okut → telefondan konuş, bilgisayarın
+   cevap versin. (Python gerekmez, her şey içinde.)
+
+   İKİ ŞEKİLDE BAĞLANIR — kendisi seçer:
+
+   1. İNTERNET (tünel): Her yerden çalışır, mobil veriyle de olur.
+      Ekranda yeşil "İnternet üzerinden erişilebilir" yazar.
+
+   2. AYNI Wi-Fi: Tünel kurulamazsa otomatik buna düşer. Ekranda
+      altın renkte "AYNI Wi-Fi'dan bağlan" yazar. Bu durumda telefonun
+      bilgisayarla AYNI ağa bağlı olmalı (mobil veri KAPALI) ve
+      tarayıcı "bağlantınız özel değil" uyarısı verir:
+         Android/Chrome : Gelişmiş → Yine de devam et
+         iPhone/Safari  : Ayrıntılar → Bu web sitesini ziyaret et
+      Bu normaldir — sertifikayı bilgisayarın kendisi üretti.
+
+   • Bilgisayarın açık ve o pencere açık kaldığı sürece çalışır.
+   • ⚠️ Çıkan adres/QR bir ŞİFRE gibidir — bilgisayarına tam erişim
+     verir, kimseyle paylaşma, videoda gösterme.
+
+   Bunun için gereken cloudflared aracı pakette hazır geliyor, ayrıca
+   kurmana gerek yok. (Cloudflare Inc.'in Apache-2.0 lisanslı aracı —
+   detay: CLOUDFLARED_LICENSE.txt)
+
+   Not: Ücretsiz tünelin adresi her başlatmada DEĞİŞİR, yani QR'ı her
+   seferinde yeniden okutman gerekir.
+
+   🔒 SADECE KENDİ AĞIMDA ÇALIŞSIN diyorsan:
+   config\api_keys.json dosyasını not defteriyle aç, şu satırı ekle:
+
+        "web_remote_access": false
+
+   O zaman bilgisayarın internete açılmaz; ama telefon yalnızca aynı
+   Wi-Fi'dan bağlanır ve tarayıcı "bu bağlantı özel değil" uyarısı
+   verir (kendi ürettiğimiz sertifika yüzünden — "Gelişmiş → Yine de
+   devam et" diyerek geçebilirsin).
+
+   ⚠️  QR'ı okuttun ama SAYFA HİÇ AÇILMIYOR mu? — GÜVENLİK DUVARI:
+
+   → TELEFON_IZIN_VER.bat dosyasına çift tıkla. Yönetici izni ister
+     (UAC penceresi), "Evet" de. Sadece telefonun kullandığı iki porta
+     (8765-8766) izin verir. Sonra TELEFON.bat'ı yeniden başlat.
+
+   Alternatif: İlk çalıştırmada "Windows Defender Güvenlik Duvarı ...
+   engelledi" penceresi çıkarsa "Özel ağlar" kutusunu İŞARETLE →
+   "Erişime izin ver". Ev ağın "Genel" görünüyorsa:
+   Ayarlar → Ağ ve İnternet → Wi-Fi → (ağ adı) → Ağ profili: "Özel"
+
+   İzni geri almak istersen komut isteminde:
+      netsh advfirewall firewall delete rule name="JARVIS Telefon"
+
+   📷 Telefonda mikrofon çalışmıyorsa: tarayıcılar mikrofona yalnızca
+   HTTPS üzerinden izin verir. Penceredeki https://... adresini kullan
+   (8766 portu); "güvenli değil" uyarısında "Yine de devam et" de.
+
+
+❓ SORUN GİDERME:
+   Bir şey çalışmıyorsa, komut istemini açıp şunu çalıştır:
+
+        JARVIS.exe --selftest
+
+   Arayüzü açmadan her şeyi test eder ve yanına "jarvis_tani.log"
+   dosyası yazar. O dosyayı paylaşırsan sorun hızlı bulunur.
+
+
+İyi eğlenceler! 🚀

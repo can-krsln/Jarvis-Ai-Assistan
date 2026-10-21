@@ -1,0 +1,215 @@
+"""
+Sistem bilgisi — psutil tabanli, platforma gore yedek yollar.
+"""
+
+import datetime
+import socket
+import subprocess
+
+from actions.platform_utils import IS_WIN, run_powershell
+
+try:
+    import psutil
+    HAS_PSUTIL = True
+except ImportError:
+    HAS_PSUTIL = False
+
+
+DISK_ROOT = "C:\\" if IS_WIN else "/"
+
+
+def sys_info(query: str) -> str:
+    query = query.lower().strip()
+
+    results = []
+
+    if query in ("battery", "pil", "all"):
+        results.append(_battery())
+
+    if query in ("cpu", "işlemci", "all"):
+        results.append(_cpu())
+
+    if query in ("ram", "bellek", "memory", "all"):
+        results.append(_ram())
+
+    if query in ("disk", "depolama", "all"):
+        results.append(_disk())
+
+    if query in ("time", "saat", "zaman", "all"):
+        now = datetime.datetime.now()
+        results.append(f"Saat: {now.strftime('%H:%M:%S')}")
+
+    if query in ("date", "tarih", "all"):
+        now = datetime.datetime.now()
+        results.append(f"Tarih: {now.strftime('%d %B %Y, %A')}")
+
+    if query in ("network", "ağ", "wifi", "all"):
+        results.append(_network())
+
+    if not results:
+        results.append(f"Bilinmeyen sorgu: {query}. battery/cpu/ram/disk/time/date/network/all kullanin.")
+
+    return "\n".join(r for r in results if r)
+
+
+def _battery() -> str:
+    if HAS_PSUTIL:
+        bat = psutil.sensors_battery()
+        if bat:
+            status = "Sarj oluyor" if bat.power_plugged else "Pilde"
+            extra = ""
+            if not bat.power_plugged and bat.secsleft and bat.secsleft > 0:
+                hours, remainder = divmod(int(bat.secsleft), 3600)
+                minutes = remainder // 60
+                extra = f", ~{hours}s {minutes}dk kaldi"
+            return f"Pil: %{bat.percent:.0f} — {status}{extra}"
+        if IS_WIN:
+            return "Pil bulunamadi (masaustu bilgisayar olabilir)."
+    if IS_WIN:
+        ok, out = run_powershell(
+            "(Get-CimInstance Win32_Battery | Select-Object -First 1).EstimatedChargeRemaining",
+            timeout=10,
+        )
+        if ok and out.strip().isdigit():
+            return f"Pil: %{out.strip()}"
+        return "Pil bilgisi alinamadi."
+    try:
+        out = subprocess.check_output(["pmset", "-g", "batt"],
+                                      text=True, timeout=5)
+        for line in out.splitlines():
+            if "%" in line:
+                return f"Pil: {line.strip()}"
+    except Exception:
+        pass
+    return "Pil bilgisi alinamadi."
+
+
+def _cpu() -> str:
+    if HAS_PSUTIL:
+        usage = psutil.cpu_percent(interval=0.5)
+        count = psutil.cpu_count(logical=True)
+        try:
+            freq = psutil.cpu_freq()
+        except Exception:
+            freq = None
+        freq_str = f", {freq.current:.0f} MHz" if freq else ""
+        return f"CPU: %{usage:.1f} kullanim — {count} cekirdek{freq_str}"
+    if IS_WIN:
+        ok, out = run_powershell(
+            "(Get-CimInstance Win32_Processor | Select-Object -First 1).LoadPercentage",
+            timeout=10,
+        )
+        if ok and out.strip().isdigit():
+            return f"CPU: %{out.strip()} kullanim"
+        return "CPU bilgisi alinamadi."
+    try:
+        out = subprocess.check_output(
+            ["top", "-l", "1", "-n", "0", "-s", "0"],
+            text=True, timeout=5)
+        for line in out.splitlines():
+            if "CPU usage" in line:
+                return f"CPU: {line.strip()}"
+    except Exception:
+        pass
+    return "CPU bilgisi alinamadi."
+
+
+def _ram() -> str:
+    if HAS_PSUTIL:
+        vm = psutil.virtual_memory()
+        total = vm.total / (1024**3)
+        used = vm.used / (1024**3)
+        pct = vm.percent
+        return f"RAM: {used:.1f}GB / {total:.1f}GB kullanimda (%{pct:.0f})"
+    return "RAM bilgisi alinamadi."
+
+
+def _disk() -> str:
+    if HAS_PSUTIL:
+        du = psutil.disk_usage(DISK_ROOT)
+        total = du.total / (1024**3)
+        used = du.used / (1024**3)
+        free = du.free / (1024**3)
+        label = "C:" if IS_WIN else "/"
+        return f"Disk ({label}): {used:.1f}GB kullanildi, {free:.1f}GB bos (toplam {total:.1f}GB)"
+    if IS_WIN:
+        return "Disk bilgisi alinamadi."
+    try:
+        out = subprocess.check_output(["df", "-h", "/"], text=True, timeout=5)
+        lines = out.strip().splitlines()
+        if len(lines) >= 2:
+            return f"Disk: {lines[1]}"
+    except Exception:
+        pass
+    return "Disk bilgisi alinamadi."
+
+
+def _network() -> str:
+    if IS_WIN:
+        return _network_win()
+    return _network_mac()
+
+
+def _network_win() -> str:
+    # Get-NetConnectionProfile ozellik adlari yerelden bagimsizdir; netsh
+    # ciktisi Turkce Windows'ta degistigi icin tercih edilmez.
+    ok, out = run_powershell(
+        "Get-NetConnectionProfile | Sort-Object -Property IPv4Connectivity -Descending "
+        "| Select-Object -First 1 | ForEach-Object { \"$($_.Name)|$($_.InterfaceAlias)\" }",
+        timeout=12,
+    )
+    if ok and out.strip():
+        parts = out.strip().splitlines()[0].split("|")
+        name = parts[0].strip()
+        interface = parts[1].strip() if len(parts) > 1 else ""
+        ip = _local_ip()
+        ip_part = f" — IP {ip}" if ip else ""
+        if "wi-fi" in interface.lower() or "wlan" in interface.lower():
+            return f"WiFi: {name} bagli{ip_part}"
+        if name:
+            return f"Ag: {name} ({interface}) bagli{ip_part}"
+
+    ip = _local_ip()
+    if ip:
+        return f"Ag: IP {ip}"
+    return "Ag baglantisi bulunamadi."
+
+
+def _network_mac() -> str:
+    try:
+        out = subprocess.check_output(
+            ["/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport", "-I"],
+            text=True, timeout=5, stderr=subprocess.DEVNULL)
+        for line in out.splitlines():
+            if " SSID:" in line:
+                ssid = line.split("SSID:")[-1].strip()
+                return f"WiFi: {ssid} bagli"
+    except Exception:
+        pass
+    try:
+        out = subprocess.check_output(["ipconfig", "getifaddr", "en0"],
+                                      text=True, timeout=3, stderr=subprocess.DEVNULL)
+        ip = out.strip()
+        if ip:
+            return f"Ag: IP {ip}"
+    except Exception:
+        pass
+    return "Ag baglantisi bulunamadi."
+
+
+def _local_ip() -> str:
+    """Disari cikan arayuzun yerel IP'sini bulur (paket gondermez)."""
+    sock = None
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.settimeout(0.5)
+        sock.connect(("8.8.8.8", 80))
+        return sock.getsockname()[0]
+    except Exception:
+        return ""
+    finally:
+        if sock:
+            try:
+                sock.close()
+            except Exception:
+                pass

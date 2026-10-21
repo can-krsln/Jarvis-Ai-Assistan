@@ -1,0 +1,158 @@
+╔══════════════════════════════════════════════════════════╗
+║                    J.A.R.V.I.S                            ║
+║             Windows Kişisel AI Asistanı                   ║
+╚══════════════════════════════════════════════════════════╝
+
+KURULUM — TEK DOSYA, 2 ADIM
+
+
+① BASLAT.bat  dosyasına ÇİFT TIKLA
+
+   İlk açılışta her şeyi otomatik kurar (Python 3.12, paketler,
+   masaüstü kısayolu — birkaç dakika). Sonraki açılışlarda doğrudan
+   başlatır. Tek dosya, tek tık — başka bir şey yok.
+
+
+   ⚠️  "Windows bilgisayarınızı korudu" (SmartScreen) uyarısı çıkarsa:
+   ───────────────────────────────────────────────────────────
+   Bu normal (dosya Microsoft'a kayıtlı değil, zararlı değil).
+   Şöyle izin ver — SADECE İLK SEFER GEREKLİ:
+
+      1. Uyarı penceresinde  "Daha fazla bilgi"  yazısına tıkla
+      2. Altta çıkan  "Yine de çalıştır"  düğmesine bas
+
+   ✅ Bunu bir kez yapınca gerisi otomatik.
+   ───────────────────────────────────────────────────────────
+
+   ⚠️  Python kurulumunu kendin yapman gerekirse:
+       https://www.python.org/downloads/  → Python 3.12
+       Kurulumda "Add python.exe to PATH" kutusunu MUTLAKA İŞARETLE.
+
+
+② İlk açılışta Gemini API anahtarı istenir (ZORUNLU, ücretsiz):
+
+      1. https://aistudio.google.com/apikey  adresine git
+      2. Google hesabınla giriş → "Create API key"
+      3. Anahtarı kopyala → JARVIS ekranındaki kutuya yapıştır → KAYDET
+
+   Birkaç saniye "bağlanıyor" deyip açılır.
+
+   ➜ Sonraki açılışlar: masaüstünde oluşan JARVIS ikonuna
+     (veya yine BASLAT.bat'a) çift tıkla.
+
+
+──────────────────────────────────────────────────────────
+📁 "sistem" klasörü uygulamanın dosyalarıdır — DOKUNMA, SİLME.
+   Sen sadece BASLAT.bat ve TELEFON.bat ile ilgilen.
+──────────────────────────────────────────────────────────
+
+
+🔐 İZİNLER:
+Windows ilk kullanımda mikrofon izni isteyebilir — "İzin Ver" de.
+Sormazsa ve mikrofon çalışmıyorsa:
+   Ayarlar → Gizlilik ve güvenlik → Mikrofon
+   → "Uygulamaların mikrofonunuza erişmesine izin verin" AÇIK olmalı
+   → Aynı sayfada "Masaüstü uygulamalarının..." seçeneği de AÇIK olmalı
+
+Kamera için aynı yer: Ayarlar → Gizlilik ve güvenlik → Kamera
+
+
+🎙️  KULLANIM:
+   • "Jarvis" diyerek konuş
+   • veya yazı kutusuna yaz, Enter'a bas
+   • F4: mikrofonu sustur    F5: duraklat    F6: kamera
+   • F11 veya Ctrl+F: tam ekran     Esc: tam ekrandan çık / kapat
+
+
+📅 TAKVİM VE ANIMSATICILAR:
+   JARVIS kendi takvimini kullanır — hiçbir kurulum gerekmez, hemen
+   çalışır. Eklediğin etkinlikler sistem\memory klasöründe saklanır ve
+   ayrıca .ics dosyası olarak da yazılır (istersen Outlook veya Google
+   Takvim'e içe aktarabilirsin).
+
+   Outlook'unu kullanmasını istersen: Outlook'u aç, bir e-posta hesabı
+   tanımla ve açık bırak — JARVIS otomatik olarak onu kullanır.
+
+
+🎵 MÜZİK:
+   Spotify kuruluysa Spotify'da, değilse YouTube'da açar.
+
+
+💬 WHATSAPP:
+   WhatsApp Desktop kuruluysa onu kullanır; değilse tarayıcıda
+   WhatsApp Web'i açar (telefonundan QR ile bir kez giriş yapman
+   yeterli). Kişi adıyla mesaj gönderebilmek için önce numarayı
+   kaydettir: "Ahmet'in numarası 0555 111 22 33, kaydet".
+
+
+🔁 TEKRAR AÇMAK:
+   Masaüstündeki JARVIS ikonuna çift tıkla. Kurulumu tekrar
+   yapmana gerek yok.
+
+   Bilgisayar açılınca kendi başlasın istersen: JARVIS ayarlarından
+   "AÇILIŞTA BAŞLAT" düğmesini aç.
+
+
+📱 TELEFONDAN BAĞLANMAK (isteğe bağlı):
+   Bilgisayarını telefonundan kontrol etmek istersen:
+      1. Önce JARVIS ayarlarından Gemini API anahtarını gir
+      2. TELEFON.bat dosyasına çift tıkla
+      3. Ekranda bir QR kod çıkar → telefon kamerasıyla okut
+      4. Telefondan konuş, bilgisayarın cevap versin
+
+   • HER YERDEN çalışır — aynı Wi-Fi'da olman gerekmez, mobil veri de olur.
+   • Bilgisayarın açık ve o pencere açık kaldığı sürece çalışır.
+   • Adres her başlatmada değişir, QR'ı yeniden okutman gerekir.
+   • ⚠️ Çıkan adres/QR bir ŞİFRE gibidir — kimseyle paylaşma.
+
+   🔒 Sadece kendi ağında çalışsın istersen: config\api_keys.json içine
+   "web_remote_access": false ekle. O zaman internete açılmaz, ama
+   tarayıcı sertifika uyarısı verir ve aynı Wi-Fi şartı gelir.
+
+   ⚠️  Telefon bağlanamıyorsa — GÜVENLİK DUVARI:
+   ───────────────────────────────────────────────────────────
+   Windows, aynı ağdaki cihazların bağlanmasını engelliyor olabilir.
+   İlk çalıştırmada "Windows Defender Güvenlik Duvarı bu uygulamanın
+   bazı özelliklerini engelledi" penceresi çıkarsa:
+
+       "Özel ağlar" kutusunu İŞARETLE → "Erişime izin ver"
+
+   Pencere çıkmadıysa ve telefon hâlâ bağlanamıyorsa, Wi-Fi ağın
+   "Genel" olarak işaretli olabilir. Şuradan değiştir:
+       Ayarlar → Ağ ve İnternet → Wi-Fi → (ağ adına tıkla)
+       → Ağ profili türü: "Özel"
+   ───────────────────────────────────────────────────────────
+
+   📷 Telefonda mikrofon çalışmıyorsa:
+   Tarayıcılar mikrofona yalnızca HTTPS üzerinden izin verir.
+   TELEFON penceresindeki https://... adresini kullan (8766 portu);
+   "güvenli değil" uyarısında "Yine de devam et" de. Sertifika
+   kendinden imzalı olduğu için bu uyarı normaldir.
+
+   🌍 Tünel (her yerden erişim) varsayılan olarak açıktır ve GEREKLİDİR.
+   EXE sürümünde cloudflared hazır gelir. Kaynak sürümde ilk kez
+   "BAŞLAT" dediğinde Cloudflare'in resmi aracı bir kez indirilir
+   (51 MB, imzası doğrulanır). İnternet yoksa indirilemez.
+
+   ⚠️  Panelde "Tünel yok — aynı Wi-Fi + sertifika uyarısı" yazıyorsa:
+   ───────────────────────────────────────────────────────────
+   Tünel kurulamamış, JARVIS yedek moda düşmüş. Bu modda telefonda
+   sayfa açılır ama bağlantı kurulamaz ("BAĞLANTI KOPTU — yeniden
+   deneniyor"). Sebebi: kendinden imzalı sertifika. Tarayıcı sayfa
+   için verdiğin izni WebSocket bağlantısına taşımıyor.
+
+   Çözüm: interneti kontrol et ve DURDUR → BAŞLAT ile tekrar dene,
+   ya da cloudflared'i elle kur:
+        winget install Cloudflare.cloudflared
+   ───────────────────────────────────────────────────────────
+
+
+❓ SORUN GİDERME:
+   • Kurulum yarıda kaldıysa kurulum günlüğü:
+     %TEMP%\jarvis_kurulum.log
+   • "Bağlanamıyor" diyorsa: API anahtarını ve internet bağlantını
+     kontrol et (ayarlar → API).
+   • Mikrofon sessizse: yukarıdaki İZİNLER bölümüne bak.
+
+
+İyi eğlenceler! 🚀
