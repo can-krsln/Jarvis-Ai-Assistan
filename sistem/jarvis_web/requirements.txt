@@ -1,0 +1,8 @@
+# JARVIS Web — sunucu + ajan bağımlılıkları
+fastapi>=0.110
+uvicorn[standard]>=0.29
+websockets>=12.0
+google-genai>=1.0
+requests>=2.31
+# Kendinden imzali HTTPS sertifikasi (telefon mikrofonu icin sart)
+cryptography>=42.0

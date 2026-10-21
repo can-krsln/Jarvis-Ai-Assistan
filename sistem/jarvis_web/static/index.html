@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#010a0a">
+  <title>J.A.R.V.I.S</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">J.A.R.V.I.S <span class="sub">WEB</span></div>
+    <div class="badges">
+      <span id="badge-server" class="badge off">SUNUCU</span>
+      <span id="badge-agent"  class="badge off">MAC</span>
+    </div>
+  </header>
+
+  <main>
+    <div id="cam-wrap" class="hidden">
+      <video id="cam" autoplay playsinline muted></video>
+      <span class="cam-live">● CAM LIVE</span>
+    </div>
+
+    <canvas id="orb"></canvas>
+    <div id="status">BAĞLANIYOR…</div>
+
+    <div id="log"></div>
+  </main>
+
+  <footer>
+    <div class="controls">
+      <button id="btn-mic" class="ctl">🎙️ MIC</button>
+      <button id="btn-cam" class="ctl">📷 CAM</button>
+    </div>
+    <form id="text-form">
+      <input id="text-input" type="text" placeholder="Yazılı komut gönder…"
+             autocomplete="off">
+      <button type="submit">➤</button>
+    </form>
+    <!-- Hangi surumun calistigi tahmine kalmasin -->
+    <div id="build-stamp"></div>
+  </footer>
+
+  <!-- Herkese açık modda ilk açılış: kullanıcı kendi API anahtarını girer -->
+  <div id="key-screen" class="hidden">
+    <div class="key-box">
+      <div class="key-title">◈ J.A.R.V.I.S</div>
+      <div class="key-sub">Başlamak için kendi ücretsiz Gemini API anahtarını gir.</div>
+      <input id="key-input" type="password" placeholder="Gemini API anahtarı"
+             autocomplete="off" spellcheck="false">
+      <button id="key-save">BAŞLAT</button>
+      <a class="key-link" href="https://aistudio.google.com/apikey" target="_blank"
+         rel="noopener">Ücretsiz anahtar al → aistudio.google.com/apikey</a>
+      <div class="key-note">Anahtarın yalnızca senin tarayıcında saklanır,
+        sunucuda tutulmaz.</div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
